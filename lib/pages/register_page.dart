@@ -2,31 +2,36 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  final VoidCallback showLoginPage;
+  const RegisterPage({Key? key, required this.showLoginPage}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   //* Text Controllers
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
 
-  //* Sign In Method
-
-  Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(),
-      password: passwordController.text.trim(),
-    );
+  //* SignUp Method
+  Future signUp() async {
+    if (passwordController.text.trim() ==
+        confirmPasswordController.text.trim()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+      );
+    }
   }
 
   @override
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
+    confirmPasswordController.dispose();
     super.dispose();
   }
 
@@ -47,7 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 //* Heading
                 Text(
-                  'Hello Again!',
+                  'Hello There',
                   style: GoogleFonts.bebasNeue(
                     fontSize: 52,
                   ),
@@ -56,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 const Text(
-                  'Welcome Back',
+                  'Register Below',
                   style: TextStyle(
                     fontWeight: FontWeight.normal,
                     fontSize: 20,
@@ -114,12 +119,36 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 10,
                 ),
+                //* Confirm Password
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: TextField(
+                    obscureText: true,
+                    controller: confirmPasswordController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.white),
+                        borderRadius: BorderRadius.circular(12),
+                      ), // OutlineInputBorder
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.deepOrange),
+                        borderRadius: BorderRadius.circular(12),
+                      ), // OutlineInputBorder
+                      hintText: 'Confirm Password',
+                      fillColor: Colors.grey[100],
+                      filled: true,
+                    ), // InputDecoration
+                  ), // TextField
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
 
                 //* SignIn
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
                   child: GestureDetector(
-                    onTap: signIn,
+                    onTap: signUp,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.deepOrange,
@@ -129,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                         padding: EdgeInsets.all(16.0),
                         child: Center(
                           child: Text(
-                            'Sign In',
+                            'Sign Up',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18,
@@ -149,10 +178,11 @@ class _LoginPageState extends State<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Not a member? '),
+                    const Text('Have an account? '),
                     GestureDetector(
+                      onTap: widget.showLoginPage,
                       child: const Text(
-                        'Register Now',
+                        'Login',
                         style: TextStyle(
                           color: Colors.blue,
                         ),

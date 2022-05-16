@@ -1,4 +1,4 @@
-import 'package:firebase_basic_setup/navigator_page.dart';
+import 'package:firebase_basic_setup/auth/navigator_page.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
