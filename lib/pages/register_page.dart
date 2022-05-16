@@ -68,7 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 128,
+                  height: 100,
                 ),
 
                 //* Email
