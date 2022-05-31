@@ -13,6 +13,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        title: const Text('MainPage'),
+      ),
+      drawer: const Drawer(),
       body: Center(
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
